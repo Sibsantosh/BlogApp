@@ -1,0 +1,143 @@
+﻿@{
+    var isFirstLogin = ViewBag.isFirstLogin;
+    var isRegistered = false;
+    
+    
+}
+
+
+
+
+   
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            margin-top :200px;
+            margin-left: 300px;
+        }
+
+            .login-container h2 {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .login-container h3 {
+                margin-bottom: 50px;
+                text-align: center;
+            }
+
+            .login-container label {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .login-container input[type="text"],
+            .login-container input[type="password"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                box-sizing: border-box;
+            }
+
+            .login-container input[type="email"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                box-sizing: border-box;
+            }
+
+            .login-container button {
+                width: 100%;
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                padding: 10px;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+                .login-container button:hover {
+                    background-color: #0056b3;
+                }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+     <div class="login-container">
+       <h3>Login</h3>
+        
+        @if (isFirstLogin == true)
+        {
+            @using (Html.BeginForm("Dashboard", "Blog"))
+            {
+                <label for="Email">Email:</label>
+                <input type="email" id="Email" name="Email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit" id="loginButton" >Login</button>
+                @if (isRegistered == true)
+                {
+                    <label for="IsRegistered">You Are registered please Login to continue:</label>
+                }
+            }
+
+        }
+        else
+        {
+            @using (Html.BeginForm("Dashboard", "Blog"))
+            {
+                        <label for="Email">Email:</label>
+                        <input type="email" id="Email" name="Email" required>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                        <button type="submit" id="loginButton" >Login</button>
+                        @* <label for="password">No such account found please register</label> *@
+                @if (isRegistered == true)
+                {
+                    <label for="IsRegistered">You Are registered please Login to continue:</label>
+                }
+            }
+            
+        }
+
+
+        <div class="register-link">
+            <a asp-action="Register">New User? Register here</a>
+        </div>
+        
+    </div>
+
+    <!-- Bootstrap and other JavaScript libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+   
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Your custom JavaScript code can go here -->
+</body>
+</html>
