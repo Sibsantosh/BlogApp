@@ -1,0 +1,192 @@
+﻿@{
+    ViewData["Title"] = "All Users";
+    var data = ViewBag.responseModel as FetchAllUsersResponseModel;
+    var isloggedIn = Program.isLoggedIn;
+    var isAdmin = Program.isAdmin;
+    int count = 1;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Basic table styling */
+        body {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: auto;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+           
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+
+        .login-container {
+            border-radius: 5px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            width: 500px;
+        }
+
+            .login-container h2 {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .login-container h3 {
+                margin-bottom: 50px;
+                text-align: left;
+            }
+
+            .login-container label {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .login-container input[type="text"],
+            .login-container input[type="password"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                box-sizing: border-box;
+            }
+
+            .login-container button {
+                width: 100%;
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                padding: 10px;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+                .login-container button:hover {
+                    background-color: #0056b3;
+                }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>@ViewData["Title"]</h2>
+
+    @if (data != null && isloggedIn == true && isAdmin == true)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Imagge</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Registration Date</th>
+                    <th>Status</th>
+                    <th>Options</th>
+                    <!-- Add more columns as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in data.usersList)
+                {
+                    string timeZoneId = "Eastern Standard Time"; // Example timezone ID
+                    
+                    // Convert milliseconds to DateTime in the specified timezone
+                    DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(item.Registration_epoch);
+                    DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.DateTime, TimeZoneInfo.FindSystemTimeZoneById(timeZoneId));
+                    var link = $"https://i.pravatar.cc/40?img={(count - 1)}";
+                    var role = "NA";
+                    @if(item.Role == 1 || item.Role == 2)
+                    {
+                        role = "Regular User";
+                    }
+                    else if(item.Role == 3)
+                    {
+                        role = "Admin";   
+                    }
+                    else if(item.Role == 4)
+                    {
+                        role = "Blocked User";
+                    }
+                    <tr>
+                        <td>@(count++)</td>
+                        <td>
+                                 <img src=@link />
+                        </td>
+                        <td>@item.Username</td>
+                        <td>@item.Email</td>
+                        <td>@item.Password</td>
+                        <td>@dateTime</td>
+                        <td>@role</td>
+                        <td style="margin-left: 20px;"  align="center">
+                            <a  asp-action="UpdateUsersAsAdmin" asp-route-id="@item.User_id">
+                            <img class="edit-btn"  src="~/images/edit.png" width="30px" height="30px" /></a>
+                            <a asp-action="DeleteUser" asp-route-id="@item.User_id"><img style="margin-left: 20px;" class="delete-btn" src="~/images/ban-user.png" width="30px" height="30px" /></a>
+                            
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <form class="login-container" asp-action="AddUserAsAdmin">
+            <button type="Logout" id="addnewUser" onClick=Logout>Add New User</button>
+        </form>
+        <form class="login-container" action="Logout">
+            <button type="Logout" id="Logout" onClick=Logout>Logout</button>
+        </form>
+    }
+    else if (data == null && isloggedIn == true)
+    {
+        <p>No data available.</p>
+    }
+    else
+    {
+        <p>Please Login First.</p>
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('.edit-btn').click(function () {
+                var itemId = $(this).data('id');
+                window.location.href = 'Edit/' + itemId;
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

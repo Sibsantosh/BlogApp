@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Home";
+    var postData = (FetchPostsResponseModel)ViewBag.postData;
+
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Your custom CSS styles can go here */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative; /* Added to allow absolute positioning inside the card */
+        }
+
+        .card-top {
+            position: relative;
+        }
+
+        .admin-options {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            display: flex;
+        }
+
+        .edit-img-top,
+        .delete-img-top {
+            width: 25px;
+            height: 25px;
+            margin-left: 5px; /* Adjust spacing between icons */
+        }
+
+        .card-title {
+            font-size: 28px;
+        }
+
+        .card-text {
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Recent Posts</h3>
+    <div class="container">
+        @foreach (var item in postData.postsList)
+        {
+            Random rnd = new Random();
+            int num = rnd.Next(70);
+            <div class="card" style="width: 18rem;">
+                <div class="card-top">
+                    <img class="card-img-top" src="https://picsum.photos/id/@num/320/220" alt="Card image cap">
+                    @if (Program.isAdmin == true)
+                    {
+                        <div class="admin-options">
+                            <a asp-action="EditPost" asp-route-id="@item.Post_id">
+                                <img class="edit-img-top" src="~/images/edit.png" alt="Card edit">
+                            </a>
+                            <a asp-action="DeletePost" asp-route-id="@item.Post_id">
+                                <img class="delete-img-top" src="~/images/delete.png" asp-action="DeletePost" asp-route-id="@item.Post_id" id="@item.Post_id" alt="Card delete">
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.Content.</p>
+                    <a asp-action="VisitPost" asp-route-id="@item.Post_id" class="btn btn-primary">Visit</a>
+                </div>
+            </div>
+        }
+    </div>
+    
+        </div>
+    }
+
+    <!-- Bootstrap and other JavaScript libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Your custom JavaScript code can go here -->
+</body>
+</html>

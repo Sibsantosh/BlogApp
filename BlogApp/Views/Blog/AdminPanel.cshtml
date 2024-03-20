@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Your custom CSS styles can go here */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative; /* Added to allow absolute positioning inside the card */
+        }
+
+        .card-top {
+            position: relative;
+        }
+
+        .admin-options {
+            position: absolute;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+            display: flex;
+        }
+
+        .edit-img-top,
+        .delete-img-top {
+            width: 25px;
+            height: 25px;
+            margin-left: 5px; /* Adjust spacing between icons */
+        }
+
+        .card-title {
+            font-size: 28px;
+        }
+
+        .card-text {
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+    <div class="card" style="width: 18rem;">
+            <a asp-action="AllUsers">
+        <img class="card-img-top" src="~/images/verified-account.png" alt="Card image cap">
+        <div class="card-body">
+           <h1> <p class="card-text"><a >Users.</a></p></h1>
+        </div>
+        </a>
+    </div>
+
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="~/images/search.png" alt="Card image cap">
+            <div class="card-body">
+                <h1><p class="card-text"><a>search Post.</a></p></h1>
+            </div>
+        </div>
+
+
+        <div class="card" style="width: 18rem;">
+             <a asp-action="AllPosts">
+            <img class="card-img-top" src="~/images/list.png" alt="Card image cap">
+            <div class="card-body">
+               <h1> <p class="card-text"><a>All Post.</a></p></h1>
+            </div>
+            </a>
+        </div>
+    </div>
+    <!-- Bootstrap and other JavaScript libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Your custom JavaScript code can go here -->
+</body>
+</html>
